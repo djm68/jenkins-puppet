@@ -1,0 +1,16 @@
+Project Empathy
+Deployment of Jenkins using Puppet
+
+- This module is based on "puppet-jenkins" module created by rtyler
+  from the Jenkins project.
+
+Integration into PE 2.0 (Ubuntu specific, can be extened for other platforms)
+
+- Copy "jenkins/" into your module path
+
+Using the Dashboard:
+  - create a class named jenkins
+  - Edit your desired target node(s) and add the jenkins class
+
+The class contains facilities to install Jenkins plugins that we have not used yet;
+will update this doc as we progress.
