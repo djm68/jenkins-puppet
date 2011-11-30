@@ -60,8 +60,44 @@ class jenkins {
 class jenkins::upstream {
   include jenkins::repo
   include jenkins::package
+  include jenkins::config
 
-  Class["jenkins::repo"] -> Class["jenkins::package"]
+  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] 
+}
+
+class jenkins::config {
+  file { '/var/lib/jenkins/users':
+    ensure => directory,
+    group => jenkins,
+    owner => jenkins
+  }
+  file { '/var/lib/jenkins/users/djm':
+    ensure => directory,
+    group => jenkins,
+    owner => jenkins 
+  }
+  file { '/var/lib/jenkins/users/djm/config.xml':
+    source => 'puppet:///files/jenkins_user.xml',
+    group => jenkins,
+    owner => jenkins,
+    ensure => present
+  }
+  file { '/var/lib/jenkins/jobs':
+    ensure => directory,
+    group => jenkins,
+    owner => jenkins 
+  }
+  file { '/var/lib/jenkins/jobs/facter':
+    ensure => directory,
+    group => jenkins,
+    owner => jenkins 
+  }
+  file {'/var/lib/jenkins/jobs/facter/config.xml':
+    source => 'puppet:///files/facter_job.xml',
+    group => jenkins,
+    owner => jenkins,
+    ensure => present
+  } 
 }
 
 class jenkins::package {
