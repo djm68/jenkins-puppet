@@ -21,23 +21,8 @@ class jenkins {
       ensure => present,
   }
 
-  jenkins-plugin { 'ant':
-      name => 'ant',
-      ensure => absent,
-  }
-
   jenkins-plugin { 'maven-plugin':
       name => 'maven-plugin',
-      ensure => absent,
-  }
-
-  jenkins-plugin { 'translation':
-      name => 'translation',
-      ensure => absent,
-  }
-
-  jenkins-plugin { 'subversion':
-      name => 'subversion',
       ensure => absent,
   }
 
@@ -46,15 +31,6 @@ class jenkins {
       ensure => absent,
   }
 
-  jenkins-plugin { 'javadoc':
-      name => 'javadoc',
-      ensure => absent,
-  }
-
-  jenkins-plugin { 'cvs':
-      name => 'cvs',
-      ensure => absent,
-  }
 }
 
 class jenkins::upstream {
@@ -66,6 +42,9 @@ class jenkins::upstream {
 }
 
 class jenkins::config {
+  group { "jenkins":
+          ensure => present
+  }
   file { '/var/lib/jenkins/users':
     ensure => directory,
     group => jenkins,
@@ -77,7 +56,7 @@ class jenkins::config {
     owner => jenkins 
   }
   file { '/var/lib/jenkins/users/djm/config.xml':
-    source => 'puppet:///files/jenkins_user.xml',
+    source => 'puppet:///modules/jenkins/jenkins_user.xml',
     group => jenkins,
     owner => jenkins,
     ensure => present
@@ -93,7 +72,7 @@ class jenkins::config {
     owner => jenkins 
   }
   file {'/var/lib/jenkins/jobs/facter/config.xml':
-    source => 'puppet:///files/facter_job.xml',
+    source => 'puppet:///modules/jenkins/facter_job.xml',
     group => jenkins,
     owner => jenkins,
     ensure => present
