@@ -1,23 +1,13 @@
 class jenkins {
-#  include jenkins::upstream
 
   include jenkins::repo
   include jenkins::package
   include jenkins::config
-  jenkins::install-plugins
+  include jenkins::install-plugins
   
-  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"]
+  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"]
 
 }
-
-#class jenkins::upstream {
-#  include jenkins::repo
-#  include jenkins::package
-#  include jenkins::config
-#  jenkins::install-plugins
-#
-#  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"]
-#}
 
 class jenkins::install-plugins {
   jenkins-plugin { 'git':
@@ -50,9 +40,6 @@ class jenkins::install-plugins {
       ensure => absent,
   }
 }
-
-
-
 
 class jenkins::config {
   group { "jenkins":
@@ -205,5 +192,3 @@ define jenkins-plugin($name, $version=0, $ensure=present) {
       notify => Service['jenkins'],
   }
 }
-
-# vim: ts=2 et sw=2 autoindent
