@@ -1,6 +1,25 @@
 class jenkins {
-  include jenkins::upstream
+#  include jenkins::upstream
 
+  include jenkins::repo
+  include jenkins::package
+  include jenkins::config
+  jenkins::install-plugins
+  
+  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"]
+
+}
+
+#class jenkins::upstream {
+#  include jenkins::repo
+#  include jenkins::package
+#  include jenkins::config
+#  jenkins::install-plugins
+#
+#  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"]
+#}
+
+class jenkins::install-plugins {
   jenkins-plugin { 'git':
       name => 'git',
       ensure => present,
@@ -30,16 +49,10 @@ class jenkins {
       name => 'ssh-slaves',
       ensure => absent,
   }
-
 }
 
-class jenkins::upstream {
-  include jenkins::repo
-  include jenkins::package
-  include jenkins::config
 
-  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] 
-}
+
 
 class jenkins::config {
   group { "jenkins":
