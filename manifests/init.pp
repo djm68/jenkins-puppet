@@ -77,6 +77,12 @@ class jenkins::config {
     owner => jenkins,
     ensure => present
   } 
+  file {'/var/lib/jenkins/.gitconfig':
+    source => 'puppet:///modules/jenkins/gitconfig',
+    group => jenkins,
+    owner => jenkins,
+    ensure => present
+  } 
 }
 
 class jenkins::package {
