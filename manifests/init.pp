@@ -4,8 +4,9 @@ class jenkins {
   include jenkins::package
   include jenkins::config
   include jenkins::install-plugins
+  include jenkins::service
   
-  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"]
+  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"] -> Class["jenkins::service"]
 
 }
 
@@ -99,7 +100,6 @@ class jenkins::service {
       enable => true,
       hasstatus => true,
       hasrestart => true,
-      require => Package['jenkins'],
   }
 }
 
