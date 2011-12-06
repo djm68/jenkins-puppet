@@ -184,5 +184,6 @@ define jenkins-plugin($name, $version=0, $ensure=present) {
       ensure => $ensure,
       require => Exec["download-${name}"],
       mode => '640',
+      backup   => false,
   }
 }
