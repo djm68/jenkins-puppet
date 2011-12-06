@@ -5,8 +5,9 @@ class jenkins {
   include jenkins::config
   include jenkins::install-plugins
   include jenkins::service
+  include jenkins::restart
   
-  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::install-plugins"] -> Class["jenkins::service"]
+  Class["jenkins::repo"] -> Class["jenkins::package"] -> Class["jenkins::config"] -> Class["jenkins::service"] -> Class["jenkins::install-plugins"] -> Class["jenkins::restart"]
 
 }
 
@@ -93,6 +94,11 @@ class jenkins::package {
   }
 }
 
+class jenkins::restart {
+  exec { "restart":
+    command => "/etc/init.d/jenkins restart",
+  }
+}
 class jenkins::service {
   service {
     'jenkins':
