@@ -90,7 +90,9 @@ class jenkins::package {
     "jenkins" :
       ensure => installed;
   }
+}
 
+class jenkins::service {
   service {
     'jenkins':
       ensure => running,
