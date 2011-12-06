@@ -32,14 +32,9 @@ class jenkins::install-plugins {
       ensure => present,
   }
 
-  jenkins-plugin { 'maven-plugin':
-      name => 'maven-plugin',
-      ensure => absent,
-  }
-
   jenkins-plugin { 'ssh-slaves':
       name => 'ssh-slaves',
-      ensure => absent,
+      ensure => present,
   }
 }
 
