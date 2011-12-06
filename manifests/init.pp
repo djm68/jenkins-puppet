@@ -164,13 +164,6 @@ define jenkins-plugin($name, $version=0, $ensure=present) {
     }
   }
 
-  if (!defined(User["jenkins"])) {
-    user {
-      "jenkins" :
-        ensure => present;
-    }
-  }
-
   exec {
     "download-${name}" :
       command  => "wget --no-check-certificate ${base_url}${plugin}",
@@ -191,6 +184,5 @@ define jenkins-plugin($name, $version=0, $ensure=present) {
       ensure => $ensure,
       require => Exec["download-${name}"],
       mode => '640',
-      notify => Service['jenkins'],
   }
 }
